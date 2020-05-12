@@ -4,11 +4,11 @@
   "description": "https://fullstackopen.com/en/part4/structure_of_backend_application_introduction_to_testing",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "NODE_ENV=production node src/index.js",
     "lint": "eslint src/",
-    "dev": "nodemon src/index.js",
-    "dev-test": "nodemon --watch src/ --watch tests/ --exec 'npm test || true'",
-    "test": "jest --verbose"
+    "dev": "NODE_ENV=development nodemon src/index.js",
+    "dev-test": "NODE_ENV=test nodemon --watch src/ --watch tests/ --exec 'npm test || true'",
+    "test": "NODE_ENV=test jest --verbose --runInBand"
   },
   "repository": {
     "type": "git",
@@ -24,12 +24,14 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
     "mongoose": "^5.9.13"
   },
   "devDependencies": {
     "eslint": "^7.0.0",
     "jest": "^26.0.1",
-    "nodemon": "^2.0.3"
+    "nodemon": "^2.0.3",
+    "supertest": "^4.0.2"
   },
   "engines": {
     "node": "10.20.x"
