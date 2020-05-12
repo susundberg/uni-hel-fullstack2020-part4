@@ -1,8 +1,9 @@
 module.exports = {
-    'env': {
-        'node': true,
-        'commonjs': true,
-        'es6': true
+    "env": {
+        "commonjs": true,
+        "es6": true,
+        "node": true,
+        "jest": true
     },
     'extends': 'eslint:recommended',
     'globals': {
@@ -20,10 +21,6 @@ module.exports = {
         'linebreak-style': [
             'error',
             'unix'
-        ],
-        'quotes': [
-            'error',
-            'single'
         ],
         'semi': [
             'error',

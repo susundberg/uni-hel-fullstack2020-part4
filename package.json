@@ -6,8 +6,9 @@
   "scripts": {
     "start": "node src/index.js",
     "lint": "eslint src/",
-    "dev": "nodemon src/index.js",    
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon src/index.js",
+    "dev-test": "nodemon --watch src/ --watch tests/ --exec 'npm test || true'",
+    "test": "jest --verbose"
   },
   "repository": {
     "type": "git",
@@ -27,9 +28,13 @@
   },
   "devDependencies": {
     "eslint": "^7.0.0",
+    "jest": "^26.0.1",
     "nodemon": "^2.0.3"
   },
   "engines": {
     "node": "10.20.x"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
