@@ -1,0 +1,35 @@
+{
+  "name": "part4",
+  "version": "1.0.0",
+  "description": "https://fullstackopen.com/en/part4/structure_of_backend_application_introduction_to_testing",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "lint": "eslint src/",
+    "dev": "nodemon src/index.js",    
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/susundberg/uni-hel-fullstack2020-part4.git"
+  },
+  "author": "Pauli Salmenrinne",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/susundberg/uni-hel-fullstack2020-part4/issues"
+  },
+  "homepage": "https://github.com/susundberg/uni-hel-fullstack2020-part4#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.13"
+  },
+  "devDependencies": {
+    "eslint": "^7.0.0",
+    "nodemon": "^2.0.3"
+  },
+  "engines": {
+    "node": "10.20.x"
+  }
+}

@@ -1,0 +1,7 @@
+POST http://localhost:3001/api/blogs
+content-type: application/json
+
+{
+    "name": "sample3",
+    "number":"012-345678"
+}
