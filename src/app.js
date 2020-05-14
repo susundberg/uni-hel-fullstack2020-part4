@@ -7,67 +7,20 @@ const cors = require('cors')
 
 
 const logger = require('./utils/logger')
-const Blog = require('./models/Blog')
+const token  = require('./middleware/token' )
 
 
 app.use(cors())
 app.use(express.json())
+app.use( token.tokenExtractor )
 
-app.get('/api/blogs', async (request, response) => {
-    const blogs = await Blog.find({})
-    response.json(blogs)
-})
+const usersRouter = require('./controllers/users')
+const blogsRouter  = require('./controllers/blog')
+const loginRouter  = require('./controllers/login')
 
-app.get('/api/blogs/:id', async (request, response) => {
-    const id = String(request.params.id)
-    console.log('Find ID:', id)
-    const blog = await Blog.findById(id)
-
-    if (blog) {
-        response.json(blog)
-    }
-    else {
-        response.status(400).json({ 'error': 'not found' })
-    }
-})
-
-app.post('/api/blogs', async (request, response) => {
-    // logger.info('Create Post:', request.body)
-    const blog = new Blog(request.body)
-    logger.info('Create Post:', blog)
-    const result = await blog.save()
-    response.status(201).json(result)
-})
-
-app.put('/api/blogs/:id', async (request, response) => {
-    const id = String(request.params.id)
-    const blog = request.body
-
-    console.log('Update ID:', id, blog )
-
-    const newBlog = await Blog.findByIdAndUpdate( id, blog, { context: 'query', new: true, runValidators: true } )
-
-    if (newBlog) {
-        response.json(newBlog)
-    }
-    else {
-        response.status(400).json({ 'error': 'not found' })
-    }
-})
-
-app.delete('/api/blogs/:id', async (request, response) => {
-    const id = String(request.params.id)
-    console.log('Delete ID:', id)
-    const blog = await Blog.findByIdAndRemove( id )
-
-    if (blog) {
-        response.json(blog)
-    }
-    else {
-        response.status(400).json({ 'error': 'not found' })
-    }
-})
-
+app.use('/api/users', usersRouter)
+app.use('/api/blogs', blogsRouter)
+app.use('/api/login', loginRouter)
 
 const unknownEndpoint = (request, response) => {
     // console.log('Unknown endpoint', request)
@@ -81,12 +34,21 @@ const errorHandler = (error, request, response, next) => {
         res.json({ error })
         res.end()
     }
-    // console.log('Error name', error.name)
+    
+    console.log('Error', error.name, error.message )
+
     if (error.name === 'CastError') {
         return errorResponce(response, 'invalid id value')
     } else if (error.name === 'ValidationError') {
         return errorResponce(response, error.message)
     }
+    else if (error.name === 'JsonWebTokenError') {
+        return response.status(401).json({ error: 'invalid token' })
+    }
+
+
+    logger.error(error.message)
+
     next(error)
 }
 

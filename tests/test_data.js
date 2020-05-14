@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt')
+
 const blogs = [
     {  title: "React patterns", author: "Michael Chan", url: "https://reactpatterns.com/", likes: 7 },
     {  title: "Go To Statement Considered Harmful", author: "Edsger W. Dijkstra", url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html", likes: 5 },
@@ -15,4 +17,25 @@ const newBlogs = [
     {  title: "New blog2", author: "Foo foo", url: "https://reactpatterns.com/2", likes: 7 },
 ]   
 
-module.exports = { blogs, newBlogs }
+const users = [
+    { name: 'Test user 1', username:'test1', passwordPlain:'TEST1'},
+    { name: 'Test user 2', username:'test2', passwordPlain:'TEST2'},
+    { name: 'Test user 3', username:'noblogs', passwordPlain:'NO_SINGLE_BLOG'},
+]
+
+const newUsers = [
+    { name: 'New user 1', username:'new_test1', password:'LONGERNTEST1'},
+    { name: 'New user 2', username:'new_test2', password:'LONGERNTEST2'},
+]
+
+
+const make_passwords = async (ulist) => {
+    for ( let u of ulist )
+    {
+        u.password = await bcrypt.hash(u.passwordPlain, 10)
+    }
+}
+
+make_passwords( users )
+
+module.exports = { blogs, newBlogs, users, newUsers }

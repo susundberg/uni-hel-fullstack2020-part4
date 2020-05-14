@@ -1,9 +1,6 @@
 
 const mongoose = require('mongoose')
-const config = require('../utils/config')
-
-const DB_URL = config.MONGODB_URI
-
+const database = require('./database')
 
 const blogSchema = mongoose.Schema({
     title: {
@@ -17,28 +14,18 @@ const blogSchema = mongoose.Schema({
         minlength: 4,
         required: true
     },
-    likes: { type: Number, default: 0 }
-})
-blogSchema.set('toJSON', {
-    transform: (document, returnedObject) => {
-        returnedObject.id = returnedObject._id.toString()
-        delete returnedObject._id
-        delete returnedObject.__v
+    likes: { type: Number, default: 0 },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 })
 
+
+blogSchema.set('toJSON', { transform: database.toJSON  })
+
 const Blog = mongoose.model('Blog', blogSchema)
-
-console.log(`Connecting to ${DB_URL}`)
-
-mongoose.set('useFindAndModify', false)
-mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => {
-        console.log('connected to MongoDB')
-    })
-    .catch((error) => {
-        console.log('error connecting to MongoDB:', error.message)
-    })
 
 
 module.exports = Blog
