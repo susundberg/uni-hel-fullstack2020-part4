@@ -7,16 +7,23 @@ const cors = require('cors')
 
 
 const logger = require('./utils/logger')
-const token  = require('./middleware/token' )
+const token = require('./middleware/token')
 
 
 app.use(cors())
 app.use(express.json())
-app.use( token.tokenExtractor )
+app.use(token.tokenExtractor)
 
 const usersRouter = require('./controllers/users')
-const blogsRouter  = require('./controllers/blog')
-const loginRouter  = require('./controllers/login')
+const blogsRouter = require('./controllers/blog')
+const loginRouter = require('./controllers/login')
+
+
+if (process.env.NODE_ENV === 'test') {
+    logger.info("TESTING ROUTES ENABLED!")
+    const testingRouter = require('./controllers/test')  
+    app.use('/api/testing', testingRouter)
+}
 
 app.use('/api/users', usersRouter)
 app.use('/api/blogs', blogsRouter)
@@ -34,8 +41,8 @@ const errorHandler = (error, request, response, next) => {
         res.json({ error })
         res.end()
     }
-    
-    console.log('Error', error.name, error.message )
+
+    console.log('Error', error.name, error.message)
 
     if (error.name === 'CastError') {
         return errorResponce(response, 'invalid id value')

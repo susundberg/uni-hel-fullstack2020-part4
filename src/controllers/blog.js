@@ -22,17 +22,19 @@ blogRouter.get('/:id', async (request, response) => {
     }
 })
 
-blogRouter.post('/', async (request, response) => {
 
+
+blogRouter.post('/', async (request, response) => {
     const user = await tokens.verifyToken(request, response)
     if (!user)
         return // errorcode is sent at verify
 
     request.body.user = user._id    
     const blog = new Blog(request.body)
-    logger.info('Create Post:', blog)
+    blog.populate('user', { username: 1, name: 1 }).execPopulate() 
     const result = await blog.save()
-
+    logger.info("Blog save done", result )
+    
     user.blogs.concat( blog._id )
     await user.save()
 

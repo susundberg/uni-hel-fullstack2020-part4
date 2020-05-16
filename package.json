@@ -6,7 +6,7 @@
   "scripts": {
     "start": "NODE_ENV=production node src/index.js",
     "lint": "eslint src/",
-    "dev": "NODE_ENV=development nodemon src/index.js",
+    "dev": "NODE_ENV=test nodemon src/index.js",
     "dev-test": "NODE_ENV=test nodemon --watch src/ --watch tests/ --exec 'npm test || true'",
     "test": "NODE_ENV=test jest --verbose --runInBand"
   },

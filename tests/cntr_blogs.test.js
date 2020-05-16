@@ -91,6 +91,8 @@ describe('Post methods', () => {
             expect(createdBlog[prop]).toEqual(newBlog[prop])
         }
         expect(createdBlog.user).toBeDefined()
+        console.log( "Created blog user:", createdBlog.user )
+        expect(createdBlog.user.username).toEqual("test1")
 
 
 
@@ -237,6 +239,10 @@ describe('Update methods', () => {
         const resNew = await updateBlog( {id:updated.id, likes:updated.likes })
         expect(resNew.id).toEqual(updated.id)
         expect(resNew.likes).toEqual(updated.likes)
+
+        const resAfter = await get_and_check_json('/api/blogs/' + updated.id )
+        expect( resAfter.author ).toEqual( updated.author )
+        expect( resAfter.url ).toEqual( updated.url )
     })
 
     test('invalid id gives error', async () => {

@@ -11,7 +11,17 @@ const verifyToken = async ( request, response ) => {
         response.status(401).json({ error: 'token missing or invalid' })
         return null
     }
-    return await User.findById(decoded.id)
+    console.log("Find user:", decoded.id )
+
+    const user = await User.findById(decoded.id)
+    
+    if ( !user ) {
+        response.status(401).json({ error: 'token user invalid' })
+        return null
+    }
+
+    console.log("User found:", user )
+    return user
 }
 
 const tokenExtractor = (request, response, next) => {
