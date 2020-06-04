@@ -28,6 +28,12 @@ const initDBUsers = async () => {
     await Promise.all(promises)
 }
 
+const clearDBBlogs = async () => {
+
+    await Blog.deleteMany({})
+}
+
+
 const initDBBlogs = async () => {
 
     await Blog.deleteMany({})
@@ -43,4 +49,4 @@ const initDBBlogs = async () => {
     await Promise.all(promiseArray)
 
 }
-module.exports = { postLogin, initDBUsers, initDBBlogs }
+module.exports = { postLogin, initDBUsers, initDBBlogs, clearDBBlogs }
